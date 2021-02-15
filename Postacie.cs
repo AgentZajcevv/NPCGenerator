@@ -4,55 +4,50 @@ using System.Text;
 
 namespace GeneratorNPC
 {
-    class Postacie
+    class NPC
     {
-        public string Klasa(int a, int r) // selects random class given which option user will select at the beginning
+        public string Profession(int a, int r) // selects random class given which option user will select at the beginning
         {
             int i = a;
-            string tekst;
+            string text;
             if (r == 1)
             {
-                string[] klasa = { "Barbarian", "Cleric", "Ranger", "Rogue", "Fighter", "Paladin", "Monk" };
+                string[] profession = { "Barbarian", "Cleric", "Ranger", "Rogue", "Fighter", "Paladin", "Monk" };
 
-                tekst = klasa[i].ToString();
+                text = profession[i].ToString();
             }
             else if (r == 2)
             {
-                string[] klasa = { "Bard", "Druid", "Cleric", "Warlock", "Sorcerrer", "Wizard" };
+                string[] profession = { "Bard", "Druid", "Cleric", "Warlock", "Sorcerrer", "Wizard" };
 
-                tekst = klasa[i].ToString();
+                text = profession[i].ToString();
             }
             else if (r == 3)
             {
-                string[] klasa = { "Bard", "Cleric", "Ranger", "Paladin" };
+                string[] profession = { "Bard", "Cleric", "Ranger", "Paladin" };
 
-                tekst = klasa[i].ToString();
+                text = profession[i].ToString();
             }
             else
             {
-                string[] klasa = { "Barbarian", "Bard", "Druid", "Cleric", "Ranger", "Rogue", "Fighter", "Paladin", "Warlock", "Sorcerrer", "Wizard", "Monk" };
+                string[] profession = { "Barbarian", "Bard", "Druid", "Cleric", "Ranger", "Rogue", "Fighter", "Paladin", "Warlock", "Sorcerrer", "Wizard", "Monk" };
 
-                tekst = klasa[i].ToString();
+                text = profession[i].ToString();
             }
-            return tekst;
+            
+            return text;
         }
-        public string Rasa(int a) // selects random race
+        public string Race(int a) // selects random race
         {
-            string[] rasa = { "Human", "Elf", "Dwarf", "Gnome", "Halfling", "Dragonborn", "Tiefling", "Half-Orc", "Half-Elf" };
+            string[] race = { "Human", "Elf", "Dwarf", "Gnome", "Halfling", "Dragonborn", "Tiefling", "Half-Orc", "Half-Elf" };
             int i = a;
-            string tekst = rasa[i];
-            return tekst;
+            string text = race[i];
+            return text;
         }
-        public string Atrybuty(int a, string klasa) // generates attributes for characters taking under consideration that races get ability score bonuses and some classes will have minimum ability scores for their main abilities
+        public string AbilityScores(int a, string profession) // generates attributes for characters taking under consideration that races get ability score bonuses and some classes will have minimum ability scores for their main abilities
         {
             Random rnd = new Random();
-            int str = 0;
-            int dex = 0;
-            int con = 0;
-            int inte = 0;
-            int wis = 0;
-            int cha = 0;
-            int losowyAtrybut;
+            int randomAttribute;
             int b;
             int[] d = { 0, 0, 0, 0, 0, 0 };
             switch (a)
@@ -107,8 +102,8 @@ namespace GeneratorNPC
                     break;
 
             }
-            losowyAtrybut = rnd.Next(2);
-            if (klasa == "Barbarian" || klasa == "Paladin" || (klasa == "Fighter" && losowyAtrybut == 0))
+            randomAttribute = rnd.Next(2);
+            if (profession == "Barbarian" || profession == "Paladin" || (profession == "Fighter" && randomAttribute == 0))
             {
                 int reset = d[0];
             restart:
@@ -122,7 +117,7 @@ namespace GeneratorNPC
 
             }
             else { d[0] += rnd.Next(8, 16); }
-            if (klasa == "Rogue" || klasa == "Ranger" || klasa == "Monk" || (klasa == "Fighter" && losowyAtrybut == 1))
+            if (profession == "Rogue" || profession == "Ranger" || profession == "Monk" || (profession == "Fighter" && randomAttribute == 1))
             {
                 int reset = d[1];
             restart2:
@@ -136,7 +131,7 @@ namespace GeneratorNPC
             else { d[1] += rnd.Next(8, 16); }
 
             d[2] += rnd.Next(8, 16);
-            if (klasa == "Wizard")
+            if (profession == "Wizard")
             {
                 int reset = d[3];
             restart3:
@@ -149,7 +144,7 @@ namespace GeneratorNPC
             }
             else { d[3] += rnd.Next(8, 16); }
 
-            if (klasa == "Druid" || klasa == "Cleric" || klasa == "Ranger" || klasa == "Monk")
+            if (profession == "Druid" || profession == "Cleric" || profession == "Ranger" || profession == "Monk")
             {
                 int reset = d[4];
             restart4:
@@ -161,7 +156,7 @@ namespace GeneratorNPC
                 }
             }
             else { d[4] += rnd.Next(8, 16); }
-            if (klasa == "Bard" || klasa == "Warlock" || klasa == "Sorcerrer" || klasa == "Paladin")
+            if (profession == "Bard" || profession == "Warlock" || profession == "Sorcerrer" || profession == "Paladin")
             {
                 int reset = d[5];
             restart5:
@@ -174,85 +169,85 @@ namespace GeneratorNPC
             }
             else { d[5] += rnd.Next(8, 16); }
             
-            string tekst = "STR = {0}\nDEX = {1}\nCON = {2}\nINT = {3}\nWIS = {4}\nCHA = {5}";
+            string text = "STR = {0}\nDEX = {1}\nCON = {2}\nINT = {3}\nWIS = {4}\nCHA = {5}";
             for (int i = 0; i < d.Length; i++)
             {
-                tekst = tekst.Replace("{" + i + "}", d[i].ToString());
+                text = text.Replace("{" + i + "}", d[i].ToString());
 
             }
+            return text;
             
-            return tekst;
         }
     
         
-       public string Charakter() // selects random alignment
+       public string Character() // selects random alignment
         {
             string[] al = { "Chaotic good", "Neutral good", "Lawfull good", "Chaotic neutral", "Neutral", "Lawfull neutral", "Chaotic evil", "Neutral evil", "Lawful evil" };
             Random a = new Random();
             int b = a.Next(9);
-            string tekst = al[b].ToString();
-            return tekst;
+            string text = al[b].ToString();
+            return text;
         }
-        public string Imie(int a) // selects random name and surname according to randomly selected gender
+        public string Name(int a) // selects random name and surname according to randomly selected gender
         {
             Random rnd = new Random();
             int b = rnd.Next(2);
-            string[] plec = { "Male", "Female" };
-            string tekst;
+            string[] gender = { "Male", "Female" };
+            string text;
             
-            string[][][] dane = new string[9][][];
-            dane[0] = new string[3][];
-            dane[1] = new string[3][];
-            dane[2] = new string[3][];
-            dane[3] = new string[3][];
-            dane[4] = new string[3][];
-            dane[5] = new string[3][];
-            dane[6] = new string[3][];
-            dane[7] = new string[3][];
-            dane[8] = new string[3][];
+            string[][][] data = new string[9][][];
+            data[0] = new string[3][];
+            data[1] = new string[3][];
+            data[2] = new string[3][];
+            data[3] = new string[3][];
+            data[4] = new string[3][];
+            data[5] = new string[3][];
+            data[6] = new string[3][];
+            data[7] = new string[3][];
+            data[8] = new string[3][];
             //Human names
-            dane[0][0] = new string[] {"Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Helm", "Malark", "Morn", "Randal", "Stedd"};
-            dane[0][1] = new string[] {"Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Rowan","Shandri","Tessele" };
-            dane[0][2] = new string[] {"Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag"};
+            data[0][0] = new string[] {"Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Helm", "Malark", "Morn", "Randal", "Stedd"};
+            data[0][1] = new string[] {"Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Rowan","Shandri","Tessele" };
+            data[0][2] = new string[] {"Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag"};
             //Elf names
-            dane[1][0] = new string[] {"Adran", "Aelar", "Aramil", "Arannis", "Aust", "Beiro", "Berrian", "Carric",
+            data[1][0] = new string[] {"Adran", "Aelar", "Aramil", "Arannis", "Aust", "Beiro", "Berrian", "Carric",
 "Enialis", "Erdan", "Erevan", "Galinndan", "Hadarai", "Heian", "Himo",
 "Immeral", "Ivellios", "Laucian", "Mindartis", "Paelias", "Peren", "uarion", "Riardon", 
 "Rolen", "Soveliss", "Thamior", "Tharivol", "Theren", "Varis" };
-            dane[1][1] = new string[] { "Adrie", "Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Meriele", "Mialee", "Naivara", "Quelenna", "Quillathe", "Sariel", "Shanairra", "Shava", "Silaqui", "Theirastra", "Thia","Vadania", "Valanthe", "Xanaphia "};
-            dane[1][2] = new string[] { "Amakiir (Gemflower)", "Amastacia (Starflower)", "Galanodel (Moonwhisper)", "Holimion (Diamonddew)", "Ilphelkiir (Gemblossom)", "Liadon (Silverfrond)", "Meliamne (Oakenheel)", "Naïlo (Nightbreeze)", "Siannodel (Moonbrook)", "Xiloscient (Goldpetal)"};
+            data[1][1] = new string[] { "Adrie", "Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Meriele", "Mialee", "Naivara", "Quelenna", "Quillathe", "Sariel", "Shanairra", "Shava", "Silaqui", "Theirastra", "Thia","Vadania", "Valanthe", "Xanaphia "};
+            data[1][2] = new string[] { "Amakiir (Gemflower)", "Amastacia (Starflower)", "Galanodel (Moonwhisper)", "Holimion (Diamonddew)", "Ilphelkiir (Gemblossom)", "Liadon (Silverfrond)", "Meliamne (Oakenheel)", "Naïlo (Nightbreeze)", "Siannodel (Moonbrook)", "Xiloscient (Goldpetal)"};
             //Dwarf names
-            dane[2][0] = new string[] { "Adrik", "Alberich", "Baern", "Barendd", "Brottor", "Bruenor", "Dain", "Darrak", "Delg", "Eberk", "Einkil", "Fargrim", "Flint", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Oskar", "Rangrim", "Rurik", "Taklinn", "Thoradi" };
-            dane[2][1] = new string[] { "Amber", "Artin", "Audhild", "Bardryn", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Finellen", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra" };
-            dane[2][2] = new string[] { "Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Lutgehr" };
+            data[2][0] = new string[] { "Adrik", "Alberich", "Baern", "Barendd", "Brottor", "Bruenor", "Dain", "Darrak", "Delg", "Eberk", "Einkil", "Fargrim", "Flint", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Oskar", "Rangrim", "Rurik", "Taklinn", "Thoradi" };
+            data[2][1] = new string[] { "Amber", "Artin", "Audhild", "Bardryn", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Finellen", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra" };
+            data[2][2] = new string[] { "Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Lutgehr" };
             //Gnome names
-            dane[3][0] = new string[] { "Alston", "Alvyn", "Boddynock", "Brocc", "Burgell", "Dimble", "Eldon", "Erky", "Fonkin", "Frug" };
-            dane[3][1] = new string[] { "Bimpnottin", "Breena", "Caramip", "Carlin", "Donella", "Duvamil", "Ella", "Ellyjobell", "Ellywick", "Lilli", "Loopmottin", "Lorilla" };
-            dane[3][2] = new string[] { "Beren", "Daergel", "Folkor", "Garrick", "Nackle", "Murnig", "Ningel", "Raulnor", "Scheppen", "Timbers", "Turen"};
+            data[3][0] = new string[] { "Alston", "Alvyn", "Boddynock", "Brocc", "Burgell", "Dimble", "Eldon", "Erky", "Fonkin", "Frug" };
+            data[3][1] = new string[] { "Bimpnottin", "Breena", "Caramip", "Carlin", "Donella", "Duvamil", "Ella", "Ellyjobell", "Ellywick", "Lilli", "Loopmottin", "Lorilla" };
+            data[3][2] = new string[] { "Beren", "Daergel", "Folkor", "Garrick", "Nackle", "Murnig", "Ningel", "Raulnor", "Scheppen", "Timbers", "Turen"};
             //Halfling names
-            dane[4][0] = new string[] { "Alton", "Ander", "Cade", "Corrin", "Eldon", "Errich", "Finnan", "Garret", "Lindal", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed" };
-            dane[4][1] = new string[] { "Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia" };
-            dane[4][2] = new string[] { "Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble"};
+            data[4][0] = new string[] { "Alton", "Ander", "Cade", "Corrin", "Eldon", "Errich", "Finnan", "Garret", "Lindal", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed" };
+            data[4][1] = new string[] { "Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia" };
+            data[4][2] = new string[] { "Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble"};
             //Dragonborn names
-            dane[5][0] = new string[] { "Arjhan", "Balasar", "Bharash", "Donaar", "Ghesh", "Heskan", "Kriv", "Medrash", "Mehen", "Nadarr", "Pandjed", "Patrin", "Rhogar", "Shamash"};
-            dane[5][1] = new string[] { "Akra", "Biri", "Daar", "Farideh", "Harann", "Havilar", "Jheri", "Kava", "Korinn", "Mishann", "Nala", "Perra", "Raiann", "Sora"};
-            dane[5][2] = new string[] { "Clethtinthiallor", "Daardendrian", "Delmirev", "Drachedandion", "Fenkenkabradon", "Kepeshkmolik", "Kerrhylon", "Kimbatuul"};
+            data[5][0] = new string[] { "Arjhan", "Balasar", "Bharash", "Donaar", "Ghesh", "Heskan", "Kriv", "Medrash", "Mehen", "Nadarr", "Pandjed", "Patrin", "Rhogar", "Shamash"};
+            data[5][1] = new string[] { "Akra", "Biri", "Daar", "Farideh", "Harann", "Havilar", "Jheri", "Kava", "Korinn", "Mishann", "Nala", "Perra", "Raiann", "Sora"};
+            data[5][2] = new string[] { "Clethtinthiallor", "Daardendrian", "Delmirev", "Drachedandion", "Fenkenkabradon", "Kepeshkmolik", "Kerrhylon", "Kimbatuul"};
             //Tiefling names
-            dane[6][0] = new string[] { "Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon", "Leucis", "Melech", "Mordai","Morthos", "Pelaios" };
-            dane[6][1] = new string[] { "Akta", "Anakis", "Bryseis", "Criella", "Damaia", "Ea", "Kallista", "Lerissa", "Makaria", "Nemeia", "Orianna"};
-            dane[6][2] = new string[] { "Art", "Carrion", "Chant", "Creed", "Despair", "Excellence", "Fear", "Glory", "Hope", "Ideal", "Music", "Nowhere"};
+            data[6][0] = new string[] { "Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon", "Leucis", "Melech", "Mordai","Morthos", "Pelaios" };
+            data[6][1] = new string[] { "Akta", "Anakis", "Bryseis", "Criella", "Damaia", "Ea", "Kallista", "Lerissa", "Makaria", "Nemeia", "Orianna"};
+            data[6][2] = new string[] { "Art", "Carrion", "Chant", "Creed", "Despair", "Excellence", "Fear", "Glory", "Hope", "Ideal", "Music", "Nowhere"};
             //Half Orc names
-            dane[7][0] = new string[] { "Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth","Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Helm"};
-            dane[7][1] = new string[] { "Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak","Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Rowan"};
-            dane[7][2] = new string[] { "Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag" };
+            data[7][0] = new string[] { "Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth","Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Helm"};
+            data[7][1] = new string[] { "Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak","Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Rowan"};
+            data[7][2] = new string[] { "Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag" };
             //Half Elf names
-            dane[8][0] = new string[] { "Gorstag", "Grim", "Helm", "Malark", "Morn", "Randal", "Adran", "Aelar", "Aramil", "Arannis", "Aust", "Beiro"};
-            dane[8][1] = new string[] { "Jhessail", "Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth"};
-            dane[8][2] = new string[] { "Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag", "Amakiir (Gemflower)", "Amastacia (Starflower)", "Galanodel (Moonwhisper)", "Holimion (Diamonddew)", "Ilphelkiir (Gemblossom)", "Liadon (Silverfrond)"};
-            int c = rnd.Next(dane[a][b].Length);
-            int d = rnd.Next(dane[a][2].Length);
-            tekst = plec[b].ToString() + " " + dane[a][b][c].ToString() + " " + dane[a][2][d].ToString();
-            return tekst;
+            data[8][0] = new string[] { "Gorstag", "Grim", "Helm", "Malark", "Morn", "Randal", "Adran", "Aelar", "Aramil", "Arannis", "Aust", "Beiro"};
+            data[8][1] = new string[] { "Jhessail", "Kerri", "Lureene", "Kerri", "Lureene", "Miri", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth"};
+            data[8][2] = new string[] { "Amblecrown","Buckman","Dundragon","Evenwood","Greycastle","Tallstag", "Amakiir (Gemflower)", "Amastacia (Starflower)", "Galanodel (Moonwhisper)", "Holimion (Diamonddew)", "Ilphelkiir (Gemblossom)", "Liadon (Silverfrond)"};
+            int c = rnd.Next(data[a][b].Length);
+            int d = rnd.Next(data[a][2].Length);
+            text = gender[b].ToString() + " " + data[a][b][c].ToString() + " " + data[a][2][d].ToString();
+            return text;
             
         }   
     }
